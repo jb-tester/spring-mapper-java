@@ -11,10 +11,12 @@ public class PersonService {
 
     private final PersonRepository personRepository;
     private final PersonMapper mapper;
+    private final PersonMapperWithUses mapperWithUses;
 
-    public PersonService(PersonRepository personRepository, PersonMapper myMapper) {
+    public PersonService(PersonRepository personRepository, PersonMapper myMapper, PersonMapperWithUses mapperWithUses) {
         this.personRepository = personRepository;
         this.mapper = myMapper;
+        this.mapperWithUses = mapperWithUses;
     }
 
     public void populateDB() {
@@ -35,4 +37,12 @@ public class PersonService {
         }
         return result;
     }
+    public List<PersonDTO> getAllPersonDTO2() {
+        List<PersonDTO> result = new ArrayList<>();
+        for (Person person : personRepository.findAll()) {
+            result.add(mapperWithUses.personToDTO(person));
+        }
+        return result;
+    }
+
 }

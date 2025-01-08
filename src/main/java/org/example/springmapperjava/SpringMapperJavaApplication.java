@@ -18,6 +18,8 @@ public class SpringMapperJavaApplication {
                 System.out.println("--------------------------------------");
                 service.getAllPersonDTO().forEach(System.out::println);
                 System.out.println("--------------------------------------");
+                service.getAllPersonDTO2().forEach(System.out::println);
+                System.out.println("--------------------------------------");
             };
         }
 }
