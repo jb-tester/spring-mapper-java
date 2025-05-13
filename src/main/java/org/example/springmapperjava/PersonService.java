@@ -1,6 +1,7 @@
 package org.example.springmapperjava;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +13,16 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper mapper;
     private final PersonMapperWithUses mapperWithUses;
+    private final PersonListMapper personListMapper;
 
-    public PersonService(PersonRepository personRepository, PersonMapper myMapper, PersonMapperWithUses mapperWithUses) {
+    public PersonService(PersonRepository personRepository, PersonMapper myMapper, PersonMapperWithUses mapperWithUses, PersonListMapper personListMapper) {
         this.personRepository = personRepository;
         this.mapper = myMapper;
         this.mapperWithUses = mapperWithUses;
+        this.personListMapper = personListMapper;
     }
 
+    @Transactional
     public void populateDB() {
         personRepository.save(new Person("ivan","ivanov",25,Gender.MALE));
         personRepository.save(new Person("maria","mashkina",25,Gender.FEMALE));
@@ -45,4 +49,9 @@ public class PersonService {
         return result;
     }
 
+    public List<PersonDTO> getAllPersonDTO3() {
+        List<Person> personList = (List<Person>) personRepository.findAll();
+        List<PersonDTO> result = personListMapper.toDTO(personList);
+        return result;
+    }
 }
